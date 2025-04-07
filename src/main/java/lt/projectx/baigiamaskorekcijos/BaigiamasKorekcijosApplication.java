@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BaigiamasKorekcijosApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BaigiamasKorekcijosApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BaigiamasKorekcijosApplication.class, args);
+    }
 
 }
