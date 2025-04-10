@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,8 +19,8 @@ public class Correction {
     @Column(insertable = false, updatable = false)
     private Long institution_id;
     private String action;
-    private Timestamp expiration;
-    private Timestamp updated;
+    private LocalDateTime expiration;
+    private LocalDateTime updated;
     private String coordinations;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
