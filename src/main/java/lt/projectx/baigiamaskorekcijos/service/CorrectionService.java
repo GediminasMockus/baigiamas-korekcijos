@@ -38,7 +38,7 @@ public class CorrectionService {
         return CorrectionCoverter.toDto(correctionRepository.save(correction));
     }
 
-    public CorrectionDto updateCorrection(Long id, CorrectionDto correctionDto) {
+    public CorrectionDto updateCorrectionById(Long id, CorrectionDto correctionDto) {
         Optional<Correction> correctionOpt = correctionRepository.findById(id);
         if (correctionOpt.isEmpty()) return null;
         Correction correction = correctionOpt.get();
@@ -53,7 +53,7 @@ public class CorrectionService {
         return CorrectionCoverter.toDto(correctionRepository.save(correction));
     }
 
-    public boolean deleteCorrection(Long id) {
+    public boolean deleteCorrectionById(Long id) {
         if (correctionRepository.existsById(id)) {
             correctionRepository.deleteById(id);
             return true;

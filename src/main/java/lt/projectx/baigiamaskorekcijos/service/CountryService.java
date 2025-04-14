@@ -31,7 +31,7 @@ public class CountryService {
         return CountryConverter.toDto(countryRepository.save(country));
     }
 
-    public CountryDto updateCountry(Long id, CountryDto countryDto) {
+    public CountryDto updateCountryById(Long id, CountryDto countryDto) {
         Optional<Country> countryOpt = countryRepository.findById(id);
         if (countryOpt.isEmpty()) return null;
         Country country = countryOpt.get();
@@ -40,7 +40,7 @@ public class CountryService {
         return CountryConverter.toDto(countryRepository.save(country));
     }
 
-    public boolean deleteCountry(Long id) {
+    public boolean deleteCountryById(Long id) {
         if (countryRepository.existsById(id)) {
             countryRepository.deleteById(id);
             return true;
