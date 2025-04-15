@@ -1,0 +1,332 @@
+{
+  "info": {
+    "name": "Baigiamasis API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Countries",
+      "item": [
+        {
+          "name": "Get all",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/countries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "countries"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/countries/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "countries",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"sample_name\",\n  \"code\": \"sample_code\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/countries",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "countries"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"updated_name\",\n  \"code\": \"updated_code\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/countries/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "countries",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/countries/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "countries",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Institutions",
+      "item": [
+        {
+          "name": "Get all",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/institutions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "institutions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/institutions/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "institutions",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"sample_name\",\n  \"email\": \"sample_email\",\n  \"website\": \"sample_website\",\n  \"countryId\": \"sample_countryId\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/institutions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "institutions"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"updated_name\",\n  \"email\": \"updated_email\",\n  \"website\": \"updated_website\",\n  \"countryId\": \"updated_countryId\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/institutions/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "institutions",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/institutions/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "institutions",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Corrections",
+      "item": [
+        {
+          "name": "Get all",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/corrections",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "corrections"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/corrections/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "corrections",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"sample_type\",\n  \"action\": \"sample_action\",\n  \"expiration\": \"sample_expiration\",\n  \"updated\": \"sample_updated\",\n  \"coordinations\": \"sample_coordinations\",\n  \"institutionId\": \"sample_institutionId\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/corrections",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "corrections"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"updated_type\",\n  \"action\": \"updated_action\",\n  \"expiration\": \"updated_expiration\",\n  \"updated\": \"updated_updated\",\n  \"coordinations\": \"updated_coordinations\",\n  \"institutionId\": \"updated_institutionId\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/corrections/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "corrections",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/corrections/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "corrections",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
