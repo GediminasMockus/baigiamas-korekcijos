@@ -76,4 +76,3 @@ spring:
 Grupė: JAVAUA7
 
 El. paštas: slaptas@gmail.com
-
