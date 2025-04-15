@@ -1,5 +1,6 @@
 package lt.projectx.baigiamaskorekcijos.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lt.projectx.baigiamaskorekcijos.dto.CountryDto;
 import lt.projectx.baigiamaskorekcijos.service.CountryService;
@@ -27,12 +28,12 @@ public class CountryController {
     }
 
     @PostMapping
-    public CountryDto createCountry(@RequestBody CountryDto countryDto) {
+    public CountryDto createCountry(@Valid @RequestBody CountryDto countryDto) {
         return countryService.createCountry(countryDto);
     }
 
     @PutMapping("/{id}")
-    public CountryDto updateCountryById(@PathVariable Long id, @RequestBody CountryDto countryDto) {
+    public CountryDto updateCountryById(@PathVariable Long id, @Valid @RequestBody CountryDto countryDto) {
         return countryService.updateCountryById(id, countryDto);
     }
 

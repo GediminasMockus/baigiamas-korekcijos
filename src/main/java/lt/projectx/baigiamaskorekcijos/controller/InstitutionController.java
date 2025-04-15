@@ -1,5 +1,6 @@
 package lt.projectx.baigiamaskorekcijos.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lt.projectx.baigiamaskorekcijos.dto.InstitutionDto;
 import lt.projectx.baigiamaskorekcijos.service.InstitutionService;
@@ -27,12 +28,12 @@ public class InstitutionController {
     }
 
     @PostMapping
-    public InstitutionDto createInstitution(@RequestBody InstitutionDto dto) {
+    public InstitutionDto createInstitution(@Valid @RequestBody InstitutionDto dto) {
         return institutionService.createInstitution(dto);
     }
 
     @PutMapping("/{id}")
-    public InstitutionDto updateInstitutionById(@PathVariable Long id, @RequestBody InstitutionDto dto) {
+    public InstitutionDto updateInstitutionById(@PathVariable Long id, @Valid @RequestBody InstitutionDto dto) {
         return institutionService.updateInstitution(id, dto);
     }
 
