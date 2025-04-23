@@ -4,7 +4,7 @@ import lt.projectx.baigiamaskorekcijos.dto.InstitutionDto;
 import lt.projectx.baigiamaskorekcijos.entity.Country;
 import lt.projectx.baigiamaskorekcijos.entity.Institution;
 
-public class InstitutionCoverter {
+public class InstitutionConverter {
     public static InstitutionDto toDto(Institution institution) {
         if (institution == null) return null;
         InstitutionDto dto = new InstitutionDto();

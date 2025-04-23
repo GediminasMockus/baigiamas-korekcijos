@@ -1,6 +1,7 @@
 package lt.projectx.baigiamaskorekcijos.service;
 
-import lt.projectx.baigiamaskorekcijos.converter.InstitutionCoverter;
+import jakarta.persistence.EntityNotFoundException;
+import lt.projectx.baigiamaskorekcijos.converter.InstitutionConverter;
 import lt.projectx.baigiamaskorekcijos.dto.InstitutionDto;
 import lt.projectx.baigiamaskorekcijos.entity.Country;
 import lt.projectx.baigiamaskorekcijos.entity.Institution;
@@ -10,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InstitutionService {
+
     @Autowired
     private InstitutionRepository institutionRepository;
 
@@ -22,40 +23,52 @@ public class InstitutionService {
 
     public List<InstitutionDto> getAllInstitutions() {
         return institutionRepository.findAll().stream()
-                .map(InstitutionCoverter::toDto)
+                .map(InstitutionConverter::toDto)
                 .toList();
     }
 
     public InstitutionDto getInstitutionById(Long id) {
-        Optional<Institution> institution = institutionRepository.findById(id);
-        return institution.map(InstitutionCoverter::toDto).orElse(null);
+        Institution institution = institutionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Institution with ID " + id + " not found"));
+        return InstitutionConverter.toDto(institution);
     }
 
     public InstitutionDto createInstitution(InstitutionDto institutionDto) {
         Country country = countryRepository.findById(institutionDto.getCountryId())
-                .orElseThrow(() -> new RuntimeException("Country not found"));
-        Institution institution = InstitutionCoverter.toEntity(institutionDto, country);
-        return InstitutionCoverter.toDto(institutionRepository.save(institution));
+                .orElseThrow(() -> new EntityNotFoundException("Country with ID " + institutionDto.getCountryId() + " not found"));
+        Institution institution = InstitutionConverter.toEntity(institutionDto, country);
+        Institution saved = institutionRepository.save(institution);
+        return InstitutionConverter.toDto(saved);
     }
 
     public InstitutionDto updateInstitution(Long id, InstitutionDto institutionDto) {
-        Optional<Institution> institutionOpt = institutionRepository.findById(id);
-        if (institutionOpt.isEmpty()) return null;
-        Institution institution = institutionOpt.get();
+        Institution institution = institutionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Institution with ID " + id + " not found"));
+
+        Country country = countryRepository.findById(institutionDto.getCountryId())
+                .orElseThrow(() -> new EntityNotFoundException("Country with ID " + institutionDto.getCountryId() + " not found"));
+
         institution.setName(institutionDto.getName());
         institution.setEmail(institutionDto.getEmail());
         institution.setWebsite(institutionDto.getWebsite());
-        Country country = countryRepository.findById(institutionDto.getCountryId())
-                .orElseThrow(() -> new RuntimeException("Country not found"));
         institution.setCountry(country);
-        return InstitutionCoverter.toDto(institutionRepository.save(institution));
+
+        return InstitutionConverter.toDto(institutionRepository.save(institution));
     }
 
-    public boolean deleteInstitution(Long id) {
-        if (institutionRepository.existsById(id)) {
-            institutionRepository.deleteById(id);
-            return true;
+    public void deleteInstitution(Long id) {
+        if (!institutionRepository.existsById(id)) {
+            throw new EntityNotFoundException("Institution with ID " + id + " not found");
         }
-        return false;
+        institutionRepository.deleteById(id);
     }
+
+    public List<InstitutionDto> getInstitutionsByCountryId(Long countryId) {
+        List<Institution> institutions = institutionRepository.findByCountryId(countryId);
+        if (institutions.isEmpty()) {
+            throw new EntityNotFoundException("No institutions found for country with ID: " + countryId);
+        }
+        return institutions.stream().map(InstitutionConverter::toDto).toList();
+    }
+
 }
