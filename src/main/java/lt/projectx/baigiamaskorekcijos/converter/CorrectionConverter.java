@@ -4,7 +4,7 @@ import lt.projectx.baigiamaskorekcijos.dto.CorrectionDto;
 import lt.projectx.baigiamaskorekcijos.entity.Correction;
 import lt.projectx.baigiamaskorekcijos.entity.Institution;
 
-public class CorrectionCoverter {
+public class CorrectionConverter {
     public static CorrectionDto toDto(Correction correction) {
         if (correction == null) return null;
         CorrectionDto dto = new CorrectionDto();

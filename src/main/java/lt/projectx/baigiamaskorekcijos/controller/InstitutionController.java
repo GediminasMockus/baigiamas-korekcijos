@@ -15,10 +15,10 @@ import java.util.List;
 public class InstitutionController {
 
     @Autowired
-    private  final InstitutionService institutionService;
+    private final InstitutionService institutionService;
 
     @GetMapping
-    public List<InstitutionDto> getAllInstitutions(@RequestParam(required = false)String name) {
+    public List<InstitutionDto> getAllInstitutions(@RequestParam(required = false) String name) {
         return institutionService.getAllInstitutions();
     }
 
@@ -26,6 +26,7 @@ public class InstitutionController {
     public InstitutionDto getInstitutionById(@PathVariable Long id) {
         return institutionService.getInstitutionById(id);
     }
+
 
     @PostMapping
     public InstitutionDto createInstitution(@Valid @RequestBody InstitutionDto dto) {
@@ -40,5 +41,10 @@ public class InstitutionController {
     @DeleteMapping("/{id}")
     public void deleteInstitutionById(@PathVariable Long id) {
         institutionService.deleteInstitution(id);
+    }
+
+    @GetMapping("countries/{id}/institutions")
+    public List<InstitutionDto> getInstitutionsByCountryId(@PathVariable Long id) {
+        return institutionService.getInstitutionsByCountryId(id);
     }
 }

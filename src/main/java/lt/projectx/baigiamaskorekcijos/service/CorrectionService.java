@@ -1,6 +1,6 @@
 package lt.projectx.baigiamaskorekcijos.service;
 
-import lt.projectx.baigiamaskorekcijos.converter.CorrectionCoverter;
+import lt.projectx.baigiamaskorekcijos.converter.CorrectionConverter;
 import lt.projectx.baigiamaskorekcijos.dto.CorrectionDto;
 import lt.projectx.baigiamaskorekcijos.entity.Correction;
 import lt.projectx.baigiamaskorekcijos.entity.Institution;
@@ -9,6 +9,7 @@ import lt.projectx.baigiamaskorekcijos.repository.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,20 +23,38 @@ public class CorrectionService {
 
     public List<CorrectionDto> getAllCorrections() {
         return correctionRepository.findAll().stream()
-                .map(CorrectionCoverter::toDto)
+                .map(CorrectionConverter::toDto)
                 .toList();
     }
 
     public CorrectionDto getCorrectionById(Long id) {
         Optional<Correction> correction = correctionRepository.findById(id);
-        return correction.map(CorrectionCoverter::toDto).orElse(null);
+        return correction.map(CorrectionConverter::toDto).orElse(null);
+    }
+
+    public List<CorrectionDto> getCorrectionsByType(String type) {
+        return correctionRepository.findByType(type).stream()
+                .map(CorrectionConverter::toDto)
+                .toList();
+    }
+
+    public List<CorrectionDto> getCorrectionsExpiringBefore(LocalDateTime date) {
+        return correctionRepository.findByExpirationBefore(date).stream()
+                .map(CorrectionConverter::toDto)
+                .toList();
+    }
+
+    public List<CorrectionDto> getCorrectionsByTypeAndExpirationBefore(String type, LocalDateTime expirationBefore) {
+        return correctionRepository.findByTypeAndExpirationBefore(type, expirationBefore).stream()
+                .map(CorrectionConverter::toDto)
+                .toList();
     }
 
     public CorrectionDto createCorrection(CorrectionDto correctionDto) {
         Institution institution = institutionRepository.findById(correctionDto.getInstitutionId())
                 .orElseThrow(() -> new RuntimeException("Institution not found"));
-        Correction correction = CorrectionCoverter.toEntity(correctionDto, institution);
-        return CorrectionCoverter.toDto(correctionRepository.save(correction));
+        Correction correction = CorrectionConverter.toEntity(correctionDto, institution);
+        return CorrectionConverter.toDto(correctionRepository.save(correction));
     }
 
     public CorrectionDto updateCorrectionById(Long id, CorrectionDto correctionDto) {
@@ -50,7 +69,7 @@ public class CorrectionService {
         Institution institution = institutionRepository.findById(correctionDto.getInstitutionId())
                 .orElseThrow(() -> new RuntimeException("Institution not found"));
         correction.setInstitution(institution);
-        return CorrectionCoverter.toDto(correctionRepository.save(correction));
+        return CorrectionConverter.toDto(correctionRepository.save(correction));
     }
 
     public boolean deleteCorrectionById(Long id) {

@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/countries")
 public class CountryController {
     @Autowired
-
     private final CountryService countryService;
 
     @GetMapping
