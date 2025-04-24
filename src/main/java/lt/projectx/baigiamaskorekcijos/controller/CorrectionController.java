@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lt.projectx.baigiamaskorekcijos.dto.CorrectionDto;
 import lt.projectx.baigiamaskorekcijos.service.CorrectionService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ public class CorrectionController {
     public List<CorrectionDto> getCorrections(
             @RequestParam(required = false) String type,
             @RequestParam(required = false)
-            @Valid @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime expirationBefore
+            @Valid @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime expirationBefore
     ) {
         if (type != null && expirationBefore != null) {
             return correctionService.getCorrectionsByTypeAndExpirationBefore(type, expirationBefore);
@@ -36,8 +37,16 @@ public class CorrectionController {
     }
 
     @GetMapping("/{id}")
-    public CorrectionDto getCorrectionById(@PathVariable Long id) {
-        return correctionService.getCorrectionById(id);
+    public ResponseEntity<CorrectionDto> getCorrectionById(@PathVariable Long id) {
+        CorrectionDto correction = correctionService.getCorrectionById(id);
+        return ResponseEntity.ok(correction);
+    }
+    @GetMapping("/filter")
+    public List<CorrectionDto> getCorrectionsByCountry(@RequestParam(required = false) Long countryId) {
+        if (countryId != null) {
+            return correctionService.getCorrectionsByCountryId(countryId);
+        }
+        return correctionService.getAllCorrections();
     }
 
     @PostMapping

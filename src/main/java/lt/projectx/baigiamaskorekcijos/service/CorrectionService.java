@@ -1,5 +1,6 @@
 package lt.projectx.baigiamaskorekcijos.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lt.projectx.baigiamaskorekcijos.converter.CorrectionConverter;
 import lt.projectx.baigiamaskorekcijos.dto.CorrectionDto;
 import lt.projectx.baigiamaskorekcijos.entity.Correction;
@@ -28,8 +29,9 @@ public class CorrectionService {
     }
 
     public CorrectionDto getCorrectionById(Long id) {
-        Optional<Correction> correction = correctionRepository.findById(id);
-        return correction.map(CorrectionConverter::toDto).orElse(null);
+        Correction correction = correctionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Correction not found with id: " + id));
+        return CorrectionConverter.toDto(correction);
     }
 
     public List<CorrectionDto> getCorrectionsByType(String type) {
@@ -46,6 +48,11 @@ public class CorrectionService {
 
     public List<CorrectionDto> getCorrectionsByTypeAndExpirationBefore(String type, LocalDateTime expirationBefore) {
         return correctionRepository.findByTypeAndExpirationBefore(type, expirationBefore).stream()
+                .map(CorrectionConverter::toDto)
+                .toList();
+    }
+    public List<CorrectionDto> getCorrectionsByCountryId(Long countryId) {
+        return correctionRepository.findByInstitution_Country_Id(countryId).stream()
                 .map(CorrectionConverter::toDto)
                 .toList();
     }

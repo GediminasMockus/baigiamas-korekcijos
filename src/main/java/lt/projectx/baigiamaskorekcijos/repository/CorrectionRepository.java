@@ -12,4 +12,5 @@ public interface CorrectionRepository extends JpaRepository<Correction, Long> {
     List<Correction> findByType(String type);
     List<Correction> findByExpirationBefore(LocalDateTime date);
     List<Correction> findByTypeAndExpirationBefore(String type, LocalDateTime dateTime);
+    List<Correction> findByInstitution_Country_Id(Long countryId);
 }

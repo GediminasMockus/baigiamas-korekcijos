@@ -59,6 +59,7 @@ public class GlobalExceptionHandler {
         error.put("message", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult()
@@ -78,8 +79,9 @@ public class GlobalExceptionHandler {
                     HttpStatus.BAD_REQUEST
             );
         }
-        return new ResponseEntity<>("Invalid parameter type.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(
+                String.format("Invalid parameter type: %s. Expected type: %s", ex.getValue(), ex.getRequiredType().getSimpleName()),
+                HttpStatus.BAD_REQUEST
+        );
     }
 }
-
-
