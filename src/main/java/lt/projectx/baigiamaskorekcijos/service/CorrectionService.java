@@ -1,5 +1,6 @@
 package lt.projectx.baigiamaskorekcijos.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lt.projectx.baigiamaskorekcijos.converter.CorrectionConverter;
 import lt.projectx.baigiamaskorekcijos.dto.CorrectionDto;
 import lt.projectx.baigiamaskorekcijos.entity.Correction;
@@ -28,8 +29,9 @@ public class CorrectionService {
     }
 
     public CorrectionDto getCorrectionById(Long id) {
-        Optional<Correction> correction = correctionRepository.findById(id);
-        return correction.map(CorrectionConverter::toDto).orElse(null);
+        Correction correction = correctionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Correction not found with id: " + id));
+        return CorrectionConverter.toDto(correction);
     }
 
     public List<CorrectionDto> getCorrectionsByType(String type) {
@@ -50,6 +52,12 @@ public class CorrectionService {
                 .toList();
     }
 
+    public List<CorrectionDto> getCorrectionsByCountryId(Long countryId) {
+        return correctionRepository.findByInstitution_Country_Id(countryId).stream()
+                .map(CorrectionConverter::toDto)
+                .toList();
+    }
+
     public CorrectionDto createCorrection(CorrectionDto correctionDto) {
         Institution institution = institutionRepository.findById(correctionDto.getInstitutionId())
                 .orElseThrow(() -> new RuntimeException("Institution not found"));
@@ -58,19 +66,22 @@ public class CorrectionService {
     }
 
     public CorrectionDto updateCorrectionById(Long id, CorrectionDto correctionDto) {
-        Optional<Correction> correctionOpt = correctionRepository.findById(id);
-        if (correctionOpt.isEmpty()) return null;
-        Correction correction = correctionOpt.get();
+        Correction correction = correctionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Correction with ID " + id + " not found"));
+
         correction.setType(correctionDto.getType());
         correction.setAction(correctionDto.getAction());
         correction.setCoordinations(correctionDto.getCoordinations());
         correction.setExpiration(correctionDto.getExpiration());
-        correction.setUpdated(correctionDto.getUpdated());
+        correction.setUpdatedAt(LocalDateTime.now());
+
         Institution institution = institutionRepository.findById(correctionDto.getInstitutionId())
-                .orElseThrow(() -> new RuntimeException("Institution not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Institution with ID " + correctionDto.getInstitutionId() + " not found"));
         correction.setInstitution(institution);
+
         return CorrectionConverter.toDto(correctionRepository.save(correction));
     }
+
 
     public boolean deleteCorrectionById(Long id) {
         if (correctionRepository.existsById(id)) {

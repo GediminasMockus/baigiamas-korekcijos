@@ -20,7 +20,8 @@ public class Correction {
     private Long institution_id;
     private String action;
     private LocalDateTime expiration;
-    private LocalDateTime updated;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
     private String coordinations;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
