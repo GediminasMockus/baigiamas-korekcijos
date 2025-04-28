@@ -1,5 +1,6 @@
 package lt.projectx.baigiamaskorekcijos.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lt.projectx.baigiamaskorekcijos.converter.CountryConverter;
 import lt.projectx.baigiamaskorekcijos.dto.CountryDto;
 import lt.projectx.baigiamaskorekcijos.entity.Country;
@@ -22,9 +23,11 @@ public class CountryService {
     }
 
     public CountryDto getCountryById(Long id) {
-        Optional<Country> country = countryRepository.findById(id);
-        return country.map(CountryConverter::toDto).orElse(null);
+        Country country = countryRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Country with ID " + id + " not found"));
+        return CountryConverter.toDto(country);
     }
+
 
     public CountryDto createCountry(CountryDto countryDto) {
         Country country = CountryConverter.toEntity(countryDto);

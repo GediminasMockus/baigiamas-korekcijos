@@ -1,10 +1,10 @@
 # Korekcijų valdymo API 📚
 
 ## 🔍 Aprašymas
-Šis projektas – REST API skirtas korekcijų sistemai valdyti, apimantis šalis, institucijas ir korekcijas. Sistema leidžia pridėti, redaguoti, peržiūrėti ir ištrinti duomenis apie šalis, institucijas ir jų korekcijas. Be to, įgyvendintas išplėstinis filtravimas pagal įvairius parametrus, pvz., institucijos pavadinimą ar korekcijos tipą. Projektas paremtas šiuolaikinėmis praktikomis – naudojami DTO, validacija, Swagger dokumentacija, išimčių valdymas ir testavimas Postman aplinkoje.
+Šis projektas – REST API skirtas korekcijų sistemai valdyti, apimantis šalis, institucijas ir korekcijas. Sistema leidžia pridėti, redaguoti, peržiūrėti ir ištrinti duomenis apie šalis, institucijas ir jų korekcijas. Be to, įgyvendintas filtravimas pagal kitus parametrus, pvz., institucijos galiojimo laika ar korekcijos tipą. Projektas paremtas šiuolaikinėmis praktikomis – naudojami DTO, validacija, Swagger dokumentacija, išimčių valdymas ir testavimas Postman aplinkoje.
 
 ## ⚙️ Technologijos
-- Java 17+
+- Java 21
 - Spring Boot
 - MySQL
 - Spring Data JPA
@@ -22,7 +22,7 @@ git clone https://github.com/GediminasMockus/baigiamas-korekcijos.git
 
 2. **Sukurkite duomenų bazę (pvz. MySQL):**
 ```sql
-CREATE DATABASE korekcijos CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE korekciju_schema CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 3. **Pridėkite duomenų bazės nustatymus į `application.yml`:**
@@ -49,17 +49,68 @@ spring:
 ```
 
 ## 📬 API endpoint'ai
-- `GET /api/countries` – gauti visų šalių sąrašą
-- `POST /api/countries` – pridėti šalį
-- `GET /api/institutions?name=Estonia road inspection` – filtruoti institucijas pagal pavadinimą
-- `POST /api/institutions` – pridėti naują instituciją
-- `GET /api/corrections?type=REPAIR` – filtruoti korekcijas pagal tipą
-- `DELETE /api/corrections/{id}` – ištrinti korekciją
-- `PUT /api/corrections/{id}` – atnaujinti korekciją
-- 
--
-🧪 **Visi endpoint'ai dokumentuoti Swagger'e:**
+
+## Country
+
+- GET /api/countries – Gauti visų šalių sąrašą
+
+- POST /api/countries – Pridėti naują šalį
+
+- GET /api/countries/{id} – Gauti šalį pagal ID
+
+- PUT /api/countries/{id} – Atnaujinti šalį
+
+- DELETE /api/countries/{id} – Ištrinti šalį (jei nėra susietų institucijų)
+
+
+## Institution 
+
+- GET /api/institutions – Gauti visų institucijų sąrašą
+
+- GET /api/institutions?countryId={countryId} – Filtruoti institucijas pagal salies ID
+
+- POST /api/institutions – Pridėti naują instituciją
+
+- GET /api/institutions/{id} – Gauti instituciją pagal ID
+
+- PUT /api/institutions/{id} – Atnaujinti instituciją
+
+- DELETE /api/institutions/{id} – Ištrinti instituciją (jei nėra susietų korekcijų)
+
+
+## Correction 
+
+- GET /api/corrections – Gauti visas korekcijas
+
+- GET /api/corrections?type={tipas} – Filtruoti korekcijas pagal tipą
+
+- GET /api/corrections?expirationBefore={yyyy-MM-dd} – Filtruoti korekcijas pagal galiojimo laiką
+
+- GET /api/corrections/filter?countryId={id} – Filtruoti korekcijas pagal šalį
+
+- GET /api/corrections/{id} – Gauti korekciją pagal ID
+
+- POST /api/corrections – Pridėti naują korekciją
+
+- PUT /api/corrections/{id} – Atnaujinti korekciją
+
+- DELETE /api/corrections/{id} – Ištrinti korekciją
+
+## 🧪 Testavimas
+- 🧪 **Visi endpoint'ai dokumentuoti Swagger'e:**
 👉 [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html)
+- 🧪 Postman kolekcija:
+Importuoti automatiškai iš Swagger arba naudoti rankinį testavimą.
+
+## 🛡️ Išimčių valdymas
+
+- 🛡️404 – Nerastas resursas (EntityNotFoundException)
+
+- 🛡️400 – Netinkami parametrai (IllegalArgumentException, blogas datos formatas)
+
+- 🛡️405 – Nepalaikomas metodas (HttpRequestMethodNotSupportedException)
+
+- 🛡️500 – Sistemos klaida (Exception)
 
 ## ✅ Baigiamojo darbo reikalavimai
 - [x] 3 susijusios lentelės: `Country`, `Institution`, `Correction` su reliaciniais ryšiais

@@ -13,7 +13,7 @@ public class CorrectionConverter {
         dto.setAction(correction.getAction());
         dto.setCoordinations(correction.getCoordinations());
         dto.setExpiration(correction.getExpiration());
-        dto.setUpdated(correction.getUpdated());
+        dto.setUpdatedAt(correction.getUpdatedAt());
         if (correction.getInstitution() != null)
             dto.setInstitutionId(correction.getInstitution().getId());
         return dto;
@@ -27,7 +27,7 @@ public class CorrectionConverter {
         correction.setAction(dto.getAction());
         correction.setCoordinations(dto.getCoordinations());
         correction.setExpiration(dto.getExpiration());
-        correction.setUpdated(dto.getUpdated());
+        correction.setUpdatedAt(dto.getUpdatedAt());
         correction.setInstitution(institution);
         return correction;
     }

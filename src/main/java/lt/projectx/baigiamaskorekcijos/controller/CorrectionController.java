@@ -41,6 +41,7 @@ public class CorrectionController {
         CorrectionDto correction = correctionService.getCorrectionById(id);
         return ResponseEntity.ok(correction);
     }
+
     @GetMapping("/filter")
     public List<CorrectionDto> getCorrectionsByCountry(@RequestParam(required = false) Long countryId) {
         if (countryId != null) {

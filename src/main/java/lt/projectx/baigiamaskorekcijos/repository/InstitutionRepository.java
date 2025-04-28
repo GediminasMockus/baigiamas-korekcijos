@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
     List<Institution> findByCountryId(Long countryId);
+
 }

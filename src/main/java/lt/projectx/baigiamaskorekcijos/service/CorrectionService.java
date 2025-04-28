@@ -51,6 +51,7 @@ public class CorrectionService {
                 .map(CorrectionConverter::toDto)
                 .toList();
     }
+
     public List<CorrectionDto> getCorrectionsByCountryId(Long countryId) {
         return correctionRepository.findByInstitution_Country_Id(countryId).stream()
                 .map(CorrectionConverter::toDto)
@@ -65,19 +66,22 @@ public class CorrectionService {
     }
 
     public CorrectionDto updateCorrectionById(Long id, CorrectionDto correctionDto) {
-        Optional<Correction> correctionOpt = correctionRepository.findById(id);
-        if (correctionOpt.isEmpty()) return null;
-        Correction correction = correctionOpt.get();
+        Correction correction = correctionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Correction with ID " + id + " not found"));
+
         correction.setType(correctionDto.getType());
         correction.setAction(correctionDto.getAction());
         correction.setCoordinations(correctionDto.getCoordinations());
         correction.setExpiration(correctionDto.getExpiration());
-        correction.setUpdated(correctionDto.getUpdated());
+        correction.setUpdatedAt(LocalDateTime.now());
+
         Institution institution = institutionRepository.findById(correctionDto.getInstitutionId())
-                .orElseThrow(() -> new RuntimeException("Institution not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Institution with ID " + correctionDto.getInstitutionId() + " not found"));
         correction.setInstitution(institution);
+
         return CorrectionConverter.toDto(correctionRepository.save(correction));
     }
+
 
     public boolean deleteCorrectionById(Long id) {
         if (correctionRepository.existsById(id)) {
